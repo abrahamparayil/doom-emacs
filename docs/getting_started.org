@@ -15,10 +15,13 @@ us know!
 - [[#install][Install]]
   - [[#emacs--dependencies][Emacs & dependencies]]
     - [[#on-linux][On Linux]]
+      - [[#building-from-source][Building From Source:]]
       - [[#arch-linux][Arch Linux:]]
       - [[#ubuntu][Ubuntu:]]
       - [[#fedora][Fedora:]]
-      - [[#nixos][NixOS]]
+      - [[#nixos][NixOS:]]
+      - [[#snap][Snap:]]
+      - [[#flatpak][Flatpak:]]
     - [[#on-macos][On macOS]]
       - [[#with-homebrew][With Homebrew]]
       - [[#with-macports][With MacPorts]]
@@ -113,9 +116,20 @@ is missing, [[https://github.com/hlissner/doom-emacs/issues/new/choose][let us k
 
 ** Emacs & dependencies
 *** On Linux
+**** Building from source:
 In the unusual case that Emacs is unavailable through your package manager,
-you'll have to [[https://www.gnu.org/software/emacs/manual/html_node/efaq/Installing-Emacs.html][build it from source]]. Otherwise:
+you'll have to build it from source using the following steps:
+- Download the latest version of emacs from the [[https://ftp.gnu.org/pub/gnu/emacs/][official GNU ftp server]].
+- Extract the compressed file through your file manager or terminal.
+- ~cd~ into the extracted folder and run the following commands: 
+#+BEGIN_SRC bash
+./configure         # configure Emacs for your particular system
+make                # use Makefile to build components, then Emacs
+sudo make install   # install emacs into your system
+#+END_SRC
+For further details refer to the [[https://www.gnu.org/software/emacs/manual/html_node/efaq/Installing-Emacs.html][official documentation]].
 
+Otherwise continue on to install emacs using your distribution's package manager.
 **** Arch Linux:
 #+BEGIN_SRC bash
 # required dependencies
@@ -152,7 +166,7 @@ sudo dnf install emacs git ripgrep
 sudo dnf install tar fd-find clang multimarkdown ShellCheck
 #+END_SRC
 
-**** NixOS
+**** NixOS:
 On NixOS Emacs 26.3 can be installed via ~nix-env -Ai nixos.emacs~, or
 permanently with the following added to ~etc/nixos/configuration.nix~:
 
@@ -180,6 +194,25 @@ nixpkgs.overlays = [
 environment.systemPackages = with pkgs; [
   emacsGit
 ];
+#+END_SRC
+
+Alternatively, you can install the latest version of emacs using snaps or flatpaks.
+
+**** Snap:
+Snaps can be used on all major Linux distributions, including Ubuntu, Linux Mint, Debian and Fedora.
+For distributions without snap pre-installed use the links given in this [[https://snapcraft.io/docs/installing-snapd][page]] for specific installation instructions.
+
+Once the you get snap setup on your system, run the following command in your terminal:
+#+BEGIN_SRC sh
+sudo snap install emacs --classic
+#+END_SRC
+
+**** Flatpak:
+Flatpak is an upstream open source project, dedicated to providing technology and services that can be used by all, with no vendor lock-in. For distributions without snap pre-installed use the links given in this [[https://flatpak.org/setup/][page]] for specific installation instructions.
+
+Once the you get flatpak setup on your system, run the following command in your terminal:
+#+BEGIN_SRC sh
+sudo flatpak install flathub org.gnu.emacs
 #+END_SRC
 
 *** On macOS
